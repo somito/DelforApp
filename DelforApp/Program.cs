@@ -105,11 +105,12 @@ namespace DelforApp
             sh.Cells[1, "J"].Value2 = "Place of Discharge";
             sh.Cells[1, "K"].Value2 = "Place of Delivery";
             sh.Cells[1, "L"].Value2 = "VW Partner Type 10";
+            sh.Cells[1, "M"].Value2 = "Time of Message";
 
             Excel.Range formatRange;
             formatRange = sh.get_Range("A1");
             formatRange.EntireRow.Font.Bold = true;
-            formatRange = sh.get_Range("A1, B1, C1, D1, E1, F1, G1, H1, I1, J1, K1, L1");
+            formatRange = sh.get_Range("A1, B1, C1, D1, E1, F1, G1, H1, I1, J1, K1, L1, M1");
             formatRange.EntireColumn.NumberFormat = "@";
 
             wb.SaveAs(dirpath + "\\Delfor_Analysis.xlsx");
@@ -130,6 +131,7 @@ namespace DelforApp
             Message.Loc1 = Message.GetLoc1(Message.DelforMessageXml);
             Message.Loc2 = Message.GetLoc2(Message.DelforMessageXml);
             Message.VWType10 = Message.SellerID + Message.PlantCode;
+            Message.TimeOfMessage = Message.GetTimeOfMessage(Message.DelforMessageXml);
 
             Excel.Application excel = new Excel.Application();
             excel.Visible = false;
@@ -148,6 +150,7 @@ namespace DelforApp
             sh.Cells[rowNumber, "J"] = Message.Loc1;
             sh.Cells[rowNumber, "K"] = Message.Loc2;
             sh.Cells[rowNumber, "L"] = Message.VWType10;
+            sh.Cells[rowNumber, "M"] = Message.TimeOfMessage;
 
             if (save)
             {

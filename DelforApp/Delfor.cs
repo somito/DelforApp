@@ -32,6 +32,7 @@ namespace DelforApp
         public string Loc1 { get; set; }
         public string Loc2 { get; set; }
         public string VWType10 { get; set; }
+        public string TimeOfMessage { get; set; }
 
         XNamespace ns = "http://www.intentia.com/Schemas/mec";
         XNamespace nsenv = "http://www.intentia.com/MBM_Envelope_1";
@@ -226,6 +227,41 @@ namespace DelforApp
             }
 
             return null;
+        }
+
+        public string GetTimeOfMessage(XElement xml)
+        {
+            var ymd = xml.Descendants()
+              .Where(x => x.Name.LocalName == "UNB")
+              .Descendants()
+              .Where(x => x.Name.LocalName == "cmp04")
+              .Select(x => x.Element(ns + "e01_0017").Value);
+
+            var ymdstring = string.Join("", ymd);
+
+            var day = ymdstring.Substring(4,2);
+            var month = ymdstring.Substring(2, 2);
+            var year = ymdstring.Substring(0, 2);
+
+            var hm = xml.Descendants()
+              .Where(x => x.Name.LocalName == "UNB")
+              .Descendants()
+              .Where(x => x.Name.LocalName == "cmp04")
+              .Select(x => x.Element(ns + "e02_0019").Value);
+
+            var hmstring = string.Join("", hm);
+
+            var hour = hmstring.Substring(0,2);
+            var minute = hmstring.Substring(2, 2);
+
+            DateTimeOffset MessageTime = new DateTimeOffset(int.Parse(year) + 2000, int.Parse(month), int.Parse(day), int.Parse(hour), int.Parse(minute), 0, TimeSpan.Zero);
+
+            var timestring = string.Join("", MessageTime);
+
+            return (MessageTime.ToString("yyyy/MM/dd H:mm"));
+
+            /*return string.Format("{%y/mm/dd H:mm:ss}", timestring);*/
+
         }
     }
 }
