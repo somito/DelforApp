@@ -251,16 +251,33 @@ namespace DelforApp
 
             var hmstring = string.Join("", hm);
 
-            var hour = hmstring.Substring(0,2);
-            var minute = hmstring.Substring(2, 2);
+            try
+            {
+                var hour = hmstring.Substring(0, 2);
+                var minute = hmstring.Substring(2, 2);
 
-            DateTimeOffset MessageTime = new DateTimeOffset(int.Parse(year) + 2000, int.Parse(month), int.Parse(day), int.Parse(hour), int.Parse(minute), 0, TimeSpan.Zero);
+                DateTimeOffset MessageTime = new DateTimeOffset(int.Parse(year) + 2000, int.Parse(month), int.Parse(day), int.Parse(hour), int.Parse(minute), 0, TimeSpan.Zero);
 
-            var timestring = string.Join("", MessageTime);
+                var timestring = string.Join("", MessageTime);
 
-            return (MessageTime.ToString("yyyy/MM/dd H:mm"));
+                return (MessageTime.ToString("yyyy/MM/dd H:mm"));
+            }
 
-            /*return string.Format("{%y/mm/dd H:mm:ss}", timestring);*/
+            catch (ArgumentOutOfRangeException)
+            {
+                var hour = "";
+                var minute = "";
+
+
+                DateTimeOffset MessageTime = new DateTimeOffset(int.Parse(year) + 2000, int.Parse(month), int.Parse(day), int.Parse(hour), int.Parse(minute), 0, TimeSpan.Zero);
+
+                var timestring = string.Join("", MessageTime);
+
+                return (MessageTime.ToString("yyyy/MM/dd H:mm"));
+
+                /*return string.Format("{%y/mm/dd H:mm:ss}", timestring);*/
+
+            }
 
         }
     }
