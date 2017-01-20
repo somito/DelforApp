@@ -265,8 +265,8 @@ namespace DelforApp
 
             catch (ArgumentOutOfRangeException)
             {
-                var hour = "";
-                var minute = "";
+                var hour = "00";
+                var minute = "00";
 
 
                 DateTimeOffset MessageTime = new DateTimeOffset(int.Parse(year) + 2000, int.Parse(month), int.Parse(day), int.Parse(hour), int.Parse(minute), 0, TimeSpan.Zero);
